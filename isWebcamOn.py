@@ -21,6 +21,7 @@ off = '{"on":false,"bri":255,"sat":255,"hue":0}'
 ip = cred["ip"]
 username = cred["username"]
 hueLight = 6
+address = f'http://{ip}/api/{username}/lights/{hueLight}/state'
 
 
 def notify(path, type):
@@ -34,11 +35,11 @@ def notify(path, type):
         if (winreg.QueryValueEx(currKey, "LastUsedTimeStop")[0] == 0):  #last used value is 0 when webcam is in use
             print(type + " open")
             #turn lroom light red
-            requests.put(f'http://{ip}/api/{username}/lights/{hueLight}/state', headers=headers, data=on)
+            requests.put(address, headers=headers, data=on)
         else:
             print (type + " closed")
             #turn lroom light off
-            requests.put(f'http://{ip}/api/{username}/lights/{hueLight}/state', headers=headers, data=off)
+            requests.put(address, headers=headers, data=off)
         if (type == "zoom"):
             zoom()   ##restart monitor
         elif (type == "nexi"):
